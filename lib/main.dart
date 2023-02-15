@@ -1,3 +1,4 @@
+import 'package:flublu/flu_blu_singleton.dart';
 import 'package:flublu/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -76,6 +77,11 @@ import 'package:flutter/material.dart';
 ///
 
 void main() {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  FluBluSingleton.instance.init();
+
   runApp(const Root());
 }
 

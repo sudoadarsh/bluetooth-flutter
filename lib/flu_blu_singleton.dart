@@ -7,7 +7,7 @@ typedef FluBluScanController = StreamController<ScanResult>;
 
 enum FluBluStatus { unavailable, on, denied, accepted }
 
-abstract class FluBlueSingleton {
+abstract class FluBlueAbs {
   late final FlutterBluePlus fb;
 
   void init();
@@ -17,11 +17,11 @@ abstract class FluBlueSingleton {
   Future<FluBluStatus> requestPermissions();
 }
 
-class FluBluSingleton extends FluBlueSingleton {
+class FluBluSingleton extends FluBlueAbs {
   /// Singleton pattern.
   FluBluSingleton._();
 
-  static final FluBlueSingleton instance = FluBluSingleton._();
+  static final FluBlueAbs instance = FluBluSingleton._();
 
   @override
   void init() {
@@ -47,7 +47,7 @@ class FluBluSingleton extends FluBlueSingleton {
 
     // Ask for location and bluetooth permissions.
     PermissionStatus location = await Permission.location.request();
-    PermissionStatus bluetooth = await Permission.bluetooth.request();
+    PermissionStatus bluetooth;
     PermissionStatus bluetoothC;
     PermissionStatus bluetoothS;
 
@@ -56,11 +56,13 @@ class FluBluSingleton extends FluBlueSingleton {
       bluetoothS = await Permission.bluetoothScan.request();
 
       if (location.isGranted &&
-          bluetooth.isGranted &&
           bluetoothC.isGranted &&
           bluetoothS.isGranted) return FluBluStatus.accepted;
     } else {
-      if (location.isGranted && bluetooth.isGranted) return FluBluStatus.accepted;
+      bluetooth = await Permission.bluetooth.request();
+      if (location.isGranted && bluetooth.isGranted) {
+        return FluBluStatus.accepted;
+      }
     }
 
     return FluBluStatus.denied;
