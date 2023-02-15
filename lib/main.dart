@@ -37,3 +37,28 @@
 /// c.3) Hold mode: Temporary power saving mode where the device sleeps for a defined period of time.
 /// c.4) Park mode: Deepest of sleep mode. A master can command a slave to "park", and that
 /// slave will only become active until the master tells it to wake back up.
+
+
+/// * 4. Bonding and pairing in bluetooth.
+///
+/// When two BDs share affinity towards each other (they are bonded), they can automatically
+/// establish a connection between themselves without any UI interaction.
+///
+/// Two devices can be bonded by a process called Pairing. Pairing usually requires an authentication
+/// process where a user must validate the connection between devices.
+
+
+/// * 5. Bluetooth profiles.
+///
+/// Additional protocols that define what kind of data is being transmitted.
+/// For example, Hands-free devices uses HSP (HeadSet profile), while keyboards use
+/// HID (Human interface device) profile.
+///
+/// Commonly encountered bluetooth profiles.
+///
+/// a) SPP (Serial port profile): If you are replacing serial communication interfaces like
+/// UART or RS-232 with bluetooth, SPP is the profile for you. SPP is great for
+/// sending bursts of data between two devices.
+///
+/// Using SPP, each connected device can send and receive data as if they are connected
+/// with RX and TX lines.
