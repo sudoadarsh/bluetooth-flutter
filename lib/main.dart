@@ -1,3 +1,6 @@
+import 'package:flublu/home_screen.dart';
+import 'package:flutter/material.dart';
+
 /// * 1. Bluetooth protocol Introduction.
 
 /// It works in the range of 2.4 Ghz. Bluetooth networks (commonly referred to as piconets)
@@ -70,3 +73,20 @@
 ///
 /// It sacrifices range (50m instead of 100m) and data throughput (0.27 Mbps instead of the 0.7-2.1 Mbps) for
 /// significant power savings.
+///
+
+void main() {
+  runApp(const Root());
+}
+
+class Root extends StatelessWidget {
+  const Root({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData.dark(useMaterial3: true),
+      home: const HomeScreen(),
+    );
+  }
+}
