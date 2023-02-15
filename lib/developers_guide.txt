@@ -1,0 +1,27 @@
+A BD device contains a table of data called a Attribute Table.
+
+The table can be accessed by other connected devices. The way the table can be exploited falls into the
+technical area of bluetooth called Generic Attribute Profile (GATT).
+
+The table contain a series of records of various types. The main types are called Services, Characteristics and
+Descriptors.
+
+1) Structure: Services contains one or more characteristics. A characteristic owns zero or more descriptors.
+A Service must contain at least one characteristic.
+
+2) Services: It is a container for logically related Bluetooth data items (Characteristics). Often a service
+represents a particular feature (eg. a hardware feature) of a device like the buttons or a particular service.
+Eg. The device information service, that is, a container for various characteristics about the device related to its
+manufacturer and serial number.
+
+3) Characteristics: Items of data that relate to particular internal state of the device or perhaps the state of
+the environment which the device can measure using a sensor.
+Eg. Serial number string which you can find inside the device information service.
+
+Characteristics contains a type, value, some properties and some permissions.
+1) TYPE: A UUID value which indicates the particular type of characteristic.
+2) VALUE: The associated state data item.
+3) PROPERTIES: What the other devices can do with the characteristic, such as READ, WRITE OR NOTIFY.
+
+4) Descriptors: Contains metadata which arguments the details relating to a characteristic. It also allow
+the configuration of a characteristic.
