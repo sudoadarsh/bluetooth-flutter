@@ -62,3 +62,11 @@
 ///
 /// Using SPP, each connected device can send and receive data as if they are connected
 /// with RX and TX lines.
+
+
+/// * 6. Common Versions.
+/// Bluetooth v4.0 split the bluetooth intro three categories: classic, high-power and low-power.
+/// The standout was the low-power (BLE: Bluetooth low power energy).
+///
+/// It sacrifices range (50m instead of 100m) and data throughput (0.27 Mbps instead of the 0.7-2.1 Mbps) for
+/// significant power savings.
