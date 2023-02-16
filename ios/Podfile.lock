@@ -1,4 +1,6 @@
 PODS:
+  - "app_settings (3.0.0+1)":
+    - Flutter
   - Flutter (1.0.0)
   - flutter_blue_plus (0.0.1):
     - Flutter
@@ -11,6 +13,7 @@ PODS:
   - Protobuf (3.21.12)
 
 DEPENDENCIES:
+  - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - Flutter (from `Flutter`)
   - flutter_blue_plus (from `.symlinks/plugins/flutter_blue_plus/ios`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
@@ -20,6 +23,8 @@ SPEC REPOS:
     - Protobuf
 
 EXTERNAL SOURCES:
+  app_settings:
+    :path: ".symlinks/plugins/app_settings/ios"
   Flutter:
     :path: Flutter
   flutter_blue_plus:
@@ -28,6 +33,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
 
 SPEC CHECKSUMS:
+  app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_blue_plus: 6787777145d615de01828f3a9fa423c3c702f0b3
   permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce

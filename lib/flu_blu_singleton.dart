@@ -1,20 +1,24 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 typedef FluBluScanController = StreamController<ScanResult>;
 
-enum FluBluStatus { unavailable, on, denied, accepted }
+enum FluBlueEnum { denied, accepted, noLocation }
 
 abstract class FluBlueAbs {
   late final FlutterBluePlus fb;
 
   void init();
 
+  Future<bool> isOn();
+
   void scan({required FluBluScanController controller});
 
-  Future<FluBluStatus> requestPermissions();
+  Future<FluBlueEnum> requestPermissions();
 }
 
 class FluBluSingleton extends FluBlueAbs {
@@ -38,33 +42,40 @@ class FluBluSingleton extends FluBlueAbs {
   }
 
   @override
-  Future<FluBluStatus> requestPermissions() async {
-    // 1. Check if the device supports BLE.
-    if (!await fb.isAvailable) return FluBluStatus.unavailable;
-
-    // 2. Check if bluetooth is turned on.
-    if (await fb.isOn) return FluBluStatus.on;
-
-    // Ask for location and bluetooth permissions.
+  Future<FluBlueEnum> requestPermissions() async {
     PermissionStatus location = await Permission.location.request();
-    PermissionStatus bluetooth;
-    PermissionStatus bluetoothC;
-    PermissionStatus bluetoothS;
+    if (location.isDenied) return FluBlueEnum.noLocation;
 
+    // 2. Check if bluetooth is on or not.
+    // if (await fb.isOn) return FluBlueEnum.on;
+
+    // 3. Request platform dependent permissions.
+    PermissionStatus blC;
+    PermissionStatus blS;
     if (Platform.isAndroid) {
-      bluetoothC = await Permission.bluetoothConnect.request();
-      bluetoothS = await Permission.bluetoothScan.request();
+      blC = await Permission.bluetoothConnect.request();
+      blS = await Permission.bluetoothScan.request();
 
-      if (location.isGranted &&
-          bluetoothC.isGranted &&
-          bluetoothS.isGranted) return FluBluStatus.accepted;
+      // Open the intent and request for permission.
+      await const AndroidIntent(
+        action: 'android.bluetooth.adapter.action.REQUEST_ENABLE',
+      ).launch().catchError((e) {
+        debugPrint("Error enabling bluetooth via android intent.");
+      });
+      if (blS.isGranted && blC.isGranted) return FluBlueEnum.accepted;
+
     } else {
-      bluetooth = await Permission.bluetooth.request();
-      if (location.isGranted && bluetooth.isGranted) {
-        return FluBluStatus.accepted;
-      }
+      PermissionStatus bl = await Permission.bluetooth.request();
+      // Workaround to ask for new connection in iOS.
+      await fb.isAvailable;
+      if (bl.isGranted) return FluBlueEnum.accepted;
     }
 
-    return FluBluStatus.denied;
+    return FluBlueEnum.denied;
+  }
+
+  @override
+  Future<bool> isOn() async {
+    return await fb.isOn;
   }
 }
